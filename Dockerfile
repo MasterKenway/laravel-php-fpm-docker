@@ -25,7 +25,6 @@ RUN apk add --no-cache --virtual .build-deps \
     && docker-php-ext-install \
         curl \
         iconv \
-        mbstring \
         pdo \
         pdo_mysql \
         pcntl \
