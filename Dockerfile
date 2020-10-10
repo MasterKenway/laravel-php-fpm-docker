@@ -2,25 +2,24 @@ FROM php:7-fpm-alpine
 
 LABEL maintainer="lyekumchew@gmail.com"
 
-RUN apk update \
-    && apk add --no-cache --virtual .build-deps \
+RUN apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
         curl-dev \
         imagemagick-dev \
         libtool \
         libxml2-dev \
-        freetype-dev \
-        libpng-dev \
-        libjpeg-turbo-dev
-
-RUN apk add --no-cache \
+	freetype-dev \
+	libpng-dev \
+	libjpeg-turbo-dev \
+    && apk add --no-cache \
         curl \
         git \
-        libzip-dev \
+	libzip-dev \
         imagemagick \
         mysql-client \
-        freetype \
-        libpng \
-        libjpeg-turbo \
+	freetype \
+	libpng \
+	libjpeg-turbo \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && docker-php-ext-install \
@@ -50,13 +49,13 @@ RUN apk update && apk add --update --no-cache nodejs libpng-dev py-pip
 ENV PATH /root/.yarn/bin:$PATH
 
 RUN  apk update \
-  && apk add curl --no-cache bash binutils tar nodejs-npm \
-  && rm -rf /var/cache/apk/* \
+  && apk add curl bash binutils tar nodejs-npm \
+  && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* \
   && /bin/bash \
   && touch ~/.bashrc \
   && curl -o- -L https://yarnpkg.com/install.sh | bash \
   && yarn config set registry 'https://registry.npm.taobao.org' \
-  && npm config set registry https://registry.npm.taobao.org
+  && npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 WORKDIR /var/www
 
