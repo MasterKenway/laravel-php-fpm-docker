@@ -53,8 +53,7 @@ RUN  apk update \
   && /bin/bash \
   && touch ~/.bashrc \
   && curl -o- -L https://yarnpkg.com/install.sh | bash \
-  && yarn config set registry 'https://registry.npm.taobao.org' \
-  && npm install -g cnpm --registry=https://registry.npm.taobao.org
+  && npm install -g cnpm
 
 WORKDIR /var/www
 
