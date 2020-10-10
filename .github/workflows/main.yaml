@@ -1,0 +1,16 @@
+name: main
+
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Docker Login
+        run:  echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+      - name: Docker Build Image
+        run: docker build -t ghcr.io/$GITHUB_ACTOR/laravel-php-fpm:latest .
+      - name: Publish to Github Packages
+        run: docker push ghcr.io/$GITHUB_ACTOR/laravel-php-fpm:latest
