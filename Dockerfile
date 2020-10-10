@@ -32,8 +32,8 @@ RUN apk add --no-cache --virtual .build-deps \
         xml \
         zip \
     && docker-php-ext-configure gd \
-        --with-freetype-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ \
+        --with-jpeg=/usr/include/ \
+        --with-freetype=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
     && apk del -f .build-deps \
