@@ -9,8 +9,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
       - name: Docker Login
-        run:  echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+              && echo ${{ secrets.ALIYUN_CR_PASSWD }} | docker login registry.cn-shenzhen.aliyuncs.com -u ${{ secrets.ALIYUN_CR_USER }} --password-stdin
       - name: Docker Build Image
         run: docker build -t ghcr.io/$GITHUB_ACTOR/laravel-php-fpm:latest .
       - name: Publish to Github Packages
         run: docker push ghcr.io/$GITHUB_ACTOR/laravel-php-fpm:latest
+      - name: Publish to Aliyun
+        run: docker tag ghcr.io/$GITHUB_ACTOR/laravel-php-fpm:latest registry.cn-shenzhen.aliyuncs.com/lyekumchew/laravel-php-fpm:latest
+              && docker push registry.cn-shenzhen.aliyuncs.com/lyekumchew/laravel-php-fpm:latest
